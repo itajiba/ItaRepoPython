@@ -1,4 +1,4 @@
-##Installling and configuring a Ubuntu server VM with Confluent Kafka
+# Installling and configuring a Ubuntu server VM with Confluent Kafka
 
 ### Installling the Ubuntu server VM
 
