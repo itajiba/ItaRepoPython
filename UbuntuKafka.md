@@ -1,14 +1,14 @@
-#Installling and configuring a Ubuntu server VM with Confluent Kafka
+##Installling and configuring a Ubuntu server VM with Confluent Kafka
 
-## Installling the Ubuntu server VM
+### Installling the Ubuntu server VM
 
 1. Create the VM. I need to modify the Boot Options from BIOS to UFI
 2. Mount the Ubuntu ISO and start the VM
 3. Follow the steps
 
-## Installing and starting the **Confluent Platform** (which includes Apache Kafka and related tools) on an **Ubuntu Server**:
+### Installing and starting the **Confluent Platform** (which includes Apache Kafka and related tools) on an **Ubuntu Server**:
 
-### 🧰 Step 1: Install Java (required for Kafka)
+#### 🧰 Step 1: Install Java (required for Kafka)
 
 Confluent Platform requires Java 11 or later.
 
@@ -24,7 +24,7 @@ java -version
 
 ---
 
-### 🧰 Step 2: Add the Confluent APT repository
+#### 🧰 Step 2: Add the Confluent APT repository
 
 ```bash
 wget -qO - https://packages.confluent.io/deb/7.9/archive.key | sudo apt-key add -
@@ -36,7 +36,7 @@ sudo apt update
 
 ---
 
-### 🧰 Step 3: Install Confluent Platform (Community Edition)
+#### 🧰 Step 3: Install Confluent Platform (Community Edition)
 
 ```bash
 sudo apt install confluent-community-2.13 -y
@@ -53,7 +53,7 @@ This installs:
 
 ---
 
-### 🧰 Step 4: Start the services
+#### 🧰 Step 4: Start the services
 
 Start Zookeeper:
 ```bash
@@ -81,7 +81,7 @@ sudo systemctl enable confluent-kafka
 
 ---
 
-### 🧪 Step 5: Verify Kafka is running
+#### 🧪 Step 5: Verify Kafka is running
 
 Check Kafka status:
 ```bash
@@ -95,7 +95,7 @@ kafka-topics --bootstrap-server localhost:9092 --list
 
 ---
 
-### 🧼 Optional: Create a topic
+#### 🧼 Optional: Create a topic
 
 ```bash
 kafka-topics --bootstrap-server localhost:9092 --create --topic test-topic --partitions 1 --replication-factor 1
@@ -104,10 +104,10 @@ kafka-topics --bootstrap-server localhost:9092 --create --topic test-topic --par
 ---
 
 
-## Check if the Open JDK is installed correctly
+### Check if the Open JDK is installed correctly
 
 
-### ✅ **1. Check Java in PATH**
+#### ✅ **1. Check Java in PATH**
 Run this command in your terminal:
 ```bash
 which java
@@ -118,7 +118,7 @@ which java
 
 ---
 
-### ✅ **2. Check Java Version**
+#### ✅ **2. Check Java Version**
 To confirm Java is working:
 ```bash
 java -version
@@ -132,7 +132,7 @@ OpenJDK Runtime Environment ...
 
 ---
 
-### ✅ **3. Check JAVA_HOME Environment Variable**
+#### ✅ **3. Check JAVA_HOME Environment Variable**
 Sometimes applications like Kafka also rely on `JAVA_HOME`. Check it with:
 ```bash
 echo $JAVA_HOME
@@ -156,16 +156,16 @@ source ~/.bashrc
 
 --- 
 
-## Check if the **Confluent Platform components** are installed on your system
+### Check if the **Confluent Platform components** are installed on your system
 
-### 📦 **Method 1: Check Installed Packages (APT/YUM)**
+#### 📦 **Method 1: Check Installed Packages (APT/YUM)**
 
-#### On **Debian/Ubuntu**:
+##### On **Debian/Ubuntu**:
 ```bash
 dpkg -l | grep confluent
 ```
 
-#### On **RHEL/CentOS/Fedora**:
+##### On **RHEL/CentOS/Fedora**:
 ```bash
 rpm -qa | grep confluent
 ```
@@ -179,13 +179,13 @@ This will list all installed Confluent components, such as:
 
 ---
 
-### 📁 **Method 2: Check Systemd Services**
+#### 📁 **Method 2: Check Systemd Services**
 You can also check which Confluent services are available via systemd:
 ```bash
 systemctl list-units --type=service | grep confluent
 ```
 
-#### **APT Package Installation**
+##### **APT Package Installation**
 
 If you installed it using APT (Advanced Package Tool), the files are typically spread across standard Linux directories:
 
@@ -200,9 +200,9 @@ dpkg -L confluent-community
 ```
 ---
 
-## Check if **Confluent Platform services** are currently running on your Ubuntu server
+### Check if **Confluent Platform services** are currently running on your Ubuntu server
 
-### ✅ **1. If You Installed via Systemd (APT installation)**
+#### ✅ **1. If You Installed via Systemd (APT installation)**
 
 Run this command to list all Confluent-related services:
 
@@ -227,9 +227,9 @@ systemctl status confluent-kafka
 
 ---
 
-## If you have an issue to start the Confluent Control Center
+### If you have an issue to start the Confluent Control Center
 
-### ✅ 1. **Ensure the Replication Settings Are Correct**
+#### ✅ 1. **Ensure the Replication Settings Are Correct**
 
 Please confirm that your `/etc/confluent-control-center/control-center.properties` file includes **all three** of these lines:
 
@@ -243,7 +243,7 @@ If any are missing, add them, save the file, and restart the service again.
 
 ---
 
-### 🔁 2. **Restart the Service Again**
+#### 🔁 2. **Restart the Service Again**
 
 After confirming the config file is correct:
 ```bash
@@ -257,7 +257,7 @@ journalctl -u confluent-control-center -f
 
 ---
 
-### 🧪 3. **Verify Kafka Broker Is Running**
+#### 🧪 3. **Verify Kafka Broker Is Running**
 
 The error also implies that Control Center can’t create topics because it can’t find enough brokers. Let’s make sure your Kafka broker is running:
 
@@ -272,7 +272,7 @@ sudo systemctl start confluent-kafka
 
 ---
 
-### 🧰 4. **(Optional) Manually Create the License Topic**
+#### 🧰 4. **(Optional) Manually Create the License Topic**
 
 If the automatic topic creation is still failing, you can try manually creating the required topic with a replication factor of 1:
 
@@ -288,11 +288,11 @@ Then restart Control Center again.
 
 ---
 
-## If the Metrics are not showing in the Confluent Control-Center
+### If the Metrics are not showing in the Confluent Control-Center
 
 ---
 
-### ✅ To Enable Metrics Reporting for Control Center
+#### ✅ To Enable Metrics Reporting for Control Center
 
 You need to **uncomment and configure** the following lines in your `server.properties`:
 
@@ -306,7 +306,7 @@ confluent.metrics.reporter.topic.replicas=1
 
 ---
 
-### 🔄 Steps to Apply the Changes
+#### 🔄 Steps to Apply the Changes
 
 1. **Edit the file**:
    ```bash
@@ -329,7 +329,7 @@ confluent.metrics.reporter.topic.replicas=1
 
 ---
 
-### 🧪 Optional: Check Metrics Are Flowing
+#### 🧪 Optional: Check Metrics Are Flowing
 
 You can check if metrics are being published by consuming from the topic:
 ```bash
