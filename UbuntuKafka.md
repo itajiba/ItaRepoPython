@@ -71,6 +71,8 @@ sudo systemctl start confluent-schema-registry
 sudo systemctl start confluent-kafka-rest
 sudo systemctl start confluent-ksqldb
 sudo systemctl start confluent-control-center
+sudo systemctl start confluent-kafka-connect
+
 ```
 
 Enable them to start on boot:
