@@ -11,7 +11,7 @@ Example:
 ```bash
 # Stop the current process (Ctrl+C if running in foreground)
 # Then restart it:
-connect-standalone.sh /etc/kafka/connect-standalone.properties your-connector-config.json
+connect-standalone /etc/kafka/connect-standalone.properties your-connector-config.json
 ```
 
 ---
